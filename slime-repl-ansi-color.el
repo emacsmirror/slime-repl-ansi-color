@@ -1,4 +1,11 @@
+;;; slime-repl-ansi-color.el --- Turn on ANSI colors in REPL output; -*- lexical-binding: t; -*-
 
+;; Author: Max Mikhanosa <max@openchat.com>
+;; Maintainer: Augustin Fabre <augustin@augfab.fr>
+;; Package-Requires: ((emacs "24") (slime "2.3.1"))
+;; Keywords: lisp
+;; URL: https://gitlab.com/augfab/slime-repl-ansi-color
+;; Version: 0.1
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -15,7 +22,14 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 
+;;; Commentary:
+
+;; This package adds ANSI colors support to the SLIME REPL.
+
+;;; Code:
+
 (require 'ansi-color)
+(require 'slime)
 
 (define-slime-contrib slime-presentations
   "Turn on ANSI colors in REPL output"
@@ -25,24 +39,25 @@
   (:on-load
    (add-hook 'slime-repl-mode-hook
              (lambda ()
-               (slime-repl-ansi-on)))))
+               (slime-repl-ansi-color-on)))))
 
 (defvar slime-repl-ansi-color nil
-  "When Non-NIL will process ANSI colors in the lisp output")
+  "When Non-NIL will process ANSI colors in the Lisp output.")
 
 (make-variable-buffer-local 'slime-repl-ansi-color)
 
-(defun slime-repl-ansi-on ()
+(defun slime-repl-ansi-color-on ()
   "Set `ansi-color-for-comint-mode' to t."
   (interactive)
   (setq slime-repl-ansi-color t))
 
-(defun slime-repl-ansi-off ()
+(defun slime-repl-ansi-color-off ()
   "Set `ansi-color-for-comint-mode' to t."
   (interactive)
   (setq slime-repl-ansi-color nil))
 
 (defadvice slime-repl-emit (around slime-repl-ansi-colorize activate compile)
+  "Process ANSI colors in the Lisp output."
   (with-current-buffer (slime-output-buffer)
     (let ((start slime-output-start))
       (setq ad-return-value ad-do-it)
@@ -51,3 +66,5 @@
 
 
 (provide 'slime-repl-ansi-color)
+
+;;; slime-repl-ansi-color.el ends here
