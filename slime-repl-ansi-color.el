@@ -1,6 +1,6 @@
 ;;; slime-repl-ansi-color.el --- Turn on ANSI colors in REPL output; -*- lexical-binding: t; -*-
 
-;; Author: Max Mikhanosa <max@openchat.com>
+;; Author: Max Mikhanosha <max@openchat.com>
 ;; Maintainer: Augustin Fabre <augustin@augfab.fr>
 ;; Package-Requires: ((emacs "24") (slime "2.3.1"))
 ;; Keywords: lisp
