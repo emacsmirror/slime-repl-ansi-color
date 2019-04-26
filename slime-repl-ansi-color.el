@@ -31,37 +31,25 @@
 (require 'ansi-color)
 (require 'slime)
 
+(define-minor-mode slime-repl-ansi-color-mode
+  "Process ANSI colors in Lisp output."
+  nil
+  :lighter " SlimeANSI")
+
 (define-slime-contrib slime-presentations
   "Turn on ANSI colors in REPL output"
   (:authors "Max Mikhanosha")
   (:license "GPL")
   (:slime-dependencies slime-repl)
   (:on-load
-   (add-hook 'slime-repl-mode-hook
-             (lambda ()
-               (slime-repl-ansi-color-on)))))
-
-(defvar slime-repl-ansi-color nil
-  "When Non-NIL will process ANSI colors in the Lisp output.")
-
-(make-variable-buffer-local 'slime-repl-ansi-color)
-
-(defun slime-repl-ansi-color-on ()
-  "Set `ansi-color-for-comint-mode' to t."
-  (interactive)
-  (setq slime-repl-ansi-color t))
-
-(defun slime-repl-ansi-color-off ()
-  "Set `ansi-color-for-comint-mode' to t."
-  (interactive)
-  (setq slime-repl-ansi-color nil))
+   (add-hook 'slime-repl-mode-hook 'slime-repl-ansi-color-mode)))
 
 (defadvice slime-repl-emit (around slime-repl-ansi-colorize activate compile)
   "Process ANSI colors in the Lisp output."
   (with-current-buffer (slime-output-buffer)
     (let ((start slime-output-start))
       (setq ad-return-value ad-do-it)
-      (when slime-repl-ansi-color
+      (when slime-repl-ansi-color-mode
         (ansi-color-apply-on-region start slime-output-end)))))
 
 
