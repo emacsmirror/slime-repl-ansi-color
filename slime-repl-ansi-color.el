@@ -33,7 +33,6 @@
 
 (define-minor-mode slime-repl-ansi-color-mode
   "Process ANSI colors in Lisp output."
-  nil
   :lighter " SlimeANSI")
 
 (define-slime-contrib slime-repl-ansi-color
